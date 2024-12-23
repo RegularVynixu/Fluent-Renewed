@@ -6,6 +6,10 @@ return function(Title, Desc, Parent, Hover, Config)
 	local Element = {}
 
 	Config = typeof(Config) == "table" and Config or {}
+	
+	if Config.Enabled == nil then
+		Config.Enabled = true
+	end
 
 	Element.TitleLabel = New("TextLabel", {
 		FontFace = Font.new("rbxasset://fonts/families/GothamSSm.json", Enum.FontWeight.Medium, Enum.FontStyle.Normal),
@@ -65,6 +69,25 @@ return function(Title, Desc, Parent, Hover, Config)
 		},
 	})
 
+	Element.DisabledOverlay = New("Frame", {
+		Size = UDim2.new(1, 0, 0, 0),
+		BackgroundTransparency = 0.5,
+		BackgroundColor3 = Color3.fromRGB(130, 130, 130),
+		Parent = Parent,
+		AutomaticSize = Enum.AutomaticSize.Y,
+		Text = "",
+		LayoutOrder = 99,
+		Visible = false,
+		ThemeTag = {
+			BackgroundColor3 = "Element",
+			BackgroundTransparency = "ElementTransparency",
+		},
+	}, {
+		New("UICorner", {
+			CornerRadius = UDim.new(0, 4),
+		})
+	})
+
 	Element.Frame = New("TextButton", {
 		Size = UDim2.new(1, 0, 0, 0),
 		BackgroundTransparency = 0.89,
@@ -83,6 +106,7 @@ return function(Title, Desc, Parent, Hover, Config)
 		}),
 		Element.Border,
 		Element.LabelHolder,
+		Element.DisabledOverlay
 	})
 
 	function Element:SetTitle(Set)
@@ -101,12 +125,18 @@ return function(Title, Desc, Parent, Hover, Config)
 		Element.DescLabel.Text = Set
 	end
 
+	function Element:SetEnabled(Set)
+		warn("SetEnabled : ", Set)
+		Element.DisabledOverlay.Visible = not Set
+	end
+
 	function Element:Destroy()
 		Element.Frame:Destroy()
 	end
 
 	Element:SetTitle(Title)
 	Element:SetDesc(Desc)
+	Element:SetEnabled(Config.Enabled)
 
 	if Hover then
 		local Themes = Root.Themes
