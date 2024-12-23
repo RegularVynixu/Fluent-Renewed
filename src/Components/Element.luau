@@ -70,18 +70,11 @@ return function(Title, Desc, Parent, Hover, Config)
 	})
 
 	Element.DisabledOverlay = New("Frame", {
-		Size = UDim2.new(1, 0, 0, 0),
-		BackgroundTransparency = 0.5,
-		BackgroundColor3 = Color3.fromRGB(130, 130, 130),
-		Parent = Parent,
 		AutomaticSize = Enum.AutomaticSize.Y,
-		Text = "",
-		LayoutOrder = 99,
-		Visible = false,
-		ThemeTag = {
-			BackgroundColor3 = "Element",
-			BackgroundTransparency = "ElementTransparency",
-		},
+		BackgroundColor3 = Color3.fromRGB(130, 130, 130),
+		BackgroundTransparency = 0.5,
+		Size = UDim2.new(1, 0, 1, 0),
+		Visible = not Config.Enabled,
 	}, {
 		New("UICorner", {
 			CornerRadius = UDim.new(0, 4),
